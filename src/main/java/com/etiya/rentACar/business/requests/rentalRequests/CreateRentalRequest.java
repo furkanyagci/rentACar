@@ -18,6 +18,9 @@ public class CreateRentalRequest {
 	private LocalDate returnDate;
 	
 	@JsonIgnore
+	private double dailyPrice;
+	
+	@JsonIgnore
 	private double totalPrice;
 
 	private int carId;

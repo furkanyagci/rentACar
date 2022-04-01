@@ -13,6 +13,7 @@ public class UpdateRentalRequest {
 	private int id;
 	private LocalDate rentDate;
 	private LocalDate returnDate;
+	private double dailyPrice;
 	private int carId;
 	private int customerId;
 	private int rentCityId;

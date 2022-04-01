@@ -35,7 +35,10 @@ public class Rental {
 	@Column(name="returnDate")
 	private LocalDate returnDate;
 	
-	@Column(name="totalPrice")
+	@Column(name="dailyPrice")
+	private double dailyPrice;
+	
+	@Column(name="totalPrice")//payment tablosuna eklenecek.
 	private double totalPrice;
 	
 	@ManyToOne

@@ -13,6 +13,7 @@ public class ListRentalDto {
 	private int id;
 	private LocalDate rentDate;
 	private LocalDate returnDate;
+	private double dailyPrice;
 	private double totalPrice;
 	private String carBrandName;
 	private String customerFirstName;

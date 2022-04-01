@@ -19,7 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 
 @SpringBootApplication
-@RestControllerAdvice//tüm controllerlarım için bir advice görürsen çalıştır demek bu
+@RestControllerAdvice//tüm controllerlarım için bir advice görürsen çalıştır demek
 public class RentACarApplication {
 
 	public static void main(String[] args) {

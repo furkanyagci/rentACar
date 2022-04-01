@@ -56,16 +56,13 @@ public class RentalManager implements RentalService{
 	}
 
 	@Override
-	public Result add(CreateRentalRequest createRentalRequest, List<Integer> listAdditionalServiceId) {
+	public Result add(CreateRentalRequest createRentalRequest) {
 		int carId=createRentalRequest.getCarId();
 		
 		carService.checkIfCarStates(carId);
 		
-		double totalPrice = calculateTotalPrice(createRentalRequest, listAdditionalServiceId);
-		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
-		rental.setReturnDate(null);
-		rental.setTotalPrice(totalPrice);
+		
 		this.rentalDao.save(rental);
 		
 		carService.updateCarState(carId, CarStates.Rented);
@@ -86,6 +83,7 @@ public class RentalManager implements RentalService{
 		return new SuccessResult(BusinessMessages.RentalMessages.RENTAL_UPDATED);
 	}
 	
+	//Hesaplama kodları payment'da olacak
 	private int calculateDay(CreateRentalRequest createRentalRequest) {
 		Period diff = Period.between(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate());
 		if (diff.getDays() ==0) {
@@ -111,7 +109,6 @@ public class RentalManager implements RentalService{
 		}
 		return 0;
 	}
-	
 	
 	private double checkIfAdditionalServices(List<Integer> listAdditionalServiceId) {
 		double additionalServicesTotalPrice = 0;

@@ -38,8 +38,8 @@ public class RentalsController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateRentalRequest createRentalRequest,@RequestParam("listAdditionalServiceId") List<Integer> listAdditionalServiceId) {
-		return this.rentalService.add(createRentalRequest, listAdditionalServiceId);
+	public Result add(@RequestBody CreateRentalRequest createRentalRequest) {
+		return this.rentalService.add(createRentalRequest);
 	}
 	
 	@PostMapping("/update")

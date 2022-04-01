@@ -15,7 +15,7 @@ public interface RentalService {
 	
 	DataResult<List<ListRentalDto>> getAll();
 
-	Result add(CreateRentalRequest createRentalRequest, List<Integer> listAdditionalServiceId);
+	Result add(CreateRentalRequest createRentalRequest);
 	Result delete(DeleteRentalRequest deleteRentalRequest);
 	Result update(UpdateRentalRequest updateRentalRequest);
 }

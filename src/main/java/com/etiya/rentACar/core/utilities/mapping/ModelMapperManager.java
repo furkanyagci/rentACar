@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service//Hata bunu yazmadığım için olmuş
 public class ModelMapperManager implements ModelMapperService{
 	
-	private ModelMapper modelMapper;//ModelMapper bir class
+	private ModelMapper modelMapper;//ModelMapper bir class. Aşağıda new'lemedik bu tip durumlarda @Bean oluşturulur.
 
 	public ModelMapperManager(ModelMapper modelMapper) {//Buradaki referans alma işlemi için "@Bean hakkında.text" notunu oku
 		this.modelMapper = modelMapper;
