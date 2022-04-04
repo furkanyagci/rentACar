@@ -18,6 +18,8 @@ public class CarDto {
 	private String description;
 	
 	private double modelYear;
+
+	private double kilometer;
 	
 	private String colorName;
 	

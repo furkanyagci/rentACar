@@ -18,6 +18,8 @@ public class UpdateCarRequest {
 	private String description;
 	
 	private double modelYear;
+
+	private double kilometer;
 	
 	private int colorId;
 	

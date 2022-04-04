@@ -14,7 +14,7 @@ public class ListRentalDto {
 	private LocalDate rentDate;
 	private LocalDate returnDate;
 	private double dailyPrice;
-	private double totalPrice;
+	private double kilometer;
 	private String carBrandName;
 	private String customerFirstName;
 	private String customerLastName;

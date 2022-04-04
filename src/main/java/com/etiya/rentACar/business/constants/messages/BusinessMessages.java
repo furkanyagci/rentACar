@@ -61,4 +61,10 @@ public class BusinessMessages {
 		public static final String ADDITIONALSERVICE_UPDATED="Başarıyla güncellendi";
 		public static final String ADDITIONALSERVICE_REGISTERED_NAME="Bu hizmet daha önce kayıt edilmiş";
 	}
+
+	public class InvoiceMessages{
+		public static final String INVOICE_ADDED="Başarıyla eklendi";
+		public static final String INVOICE_DELETED="Başarıyla silindi";
+		public static final String INVOICE_UPDATED="Başarıyla güncellendi";
+	}
 }

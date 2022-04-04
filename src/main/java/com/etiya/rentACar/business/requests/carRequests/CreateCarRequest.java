@@ -32,6 +32,9 @@ public class CreateCarRequest {
 	@NotNull
 	@Min(2015)
 	private double modelYear;
+
+	@Min(0)
+	private double kilometer;
 	
 	@NotNull
 	private int colorId;

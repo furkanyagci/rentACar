@@ -37,9 +37,13 @@ public class Rental {
 	
 	@Column(name="dailyPrice")
 	private double dailyPrice;
+
+	@Column(name="kilometer")
+	private double kilometer;
+
 	
-	@Column(name="totalPrice")//payment tablosuna eklenecek.
-	private double totalPrice;
+	//@Column(name="totalPrice")//payment tablosuna eklenecek.
+	//private double totalPrice;
 	
 	@ManyToOne
 	@JoinColumn(name="car_id")

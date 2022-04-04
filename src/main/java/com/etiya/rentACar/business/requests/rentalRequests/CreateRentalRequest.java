@@ -19,9 +19,8 @@ public class CreateRentalRequest {
 	
 	@JsonIgnore
 	private double dailyPrice;
-	
-	@JsonIgnore
-	private double totalPrice;
+
+	private double kilometer;
 
 	private int carId;
 	

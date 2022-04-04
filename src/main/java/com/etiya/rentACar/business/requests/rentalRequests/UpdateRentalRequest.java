@@ -14,6 +14,7 @@ public class UpdateRentalRequest {
 	private LocalDate rentDate;
 	private LocalDate returnDate;
 	private double dailyPrice;
+	private double kilometer;
 	private int carId;
 	private int customerId;
 	private int rentCityId;

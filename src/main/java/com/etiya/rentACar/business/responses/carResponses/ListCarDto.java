@@ -16,6 +16,8 @@ public class ListCarDto {
 	private String description;
 	
 	private double modelYear;
+
+	private double kilometer;
 	
 	private String colorName;/*Burada isimlendirme çok önemli modelmapper'ın anlaması için. Car da colorName fieldı yok.
 	Car da color var Color classında da name alanı var bu ikisini birleştirerek isim veriyoruz modelmappin Car'a bakıyor color

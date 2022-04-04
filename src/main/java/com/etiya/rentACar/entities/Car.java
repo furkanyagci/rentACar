@@ -36,7 +36,10 @@ public class Car {
 	
 	@Column(name="modelYear")
 	private double modelYear;
-	
+
+	@Column(name="kilometer")
+	private double kilometer;
+
 	@Column(name="carState")//Enum'ı buraya bağladık
 	private CarStates carStates;
 	
