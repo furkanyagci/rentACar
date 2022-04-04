@@ -8,6 +8,7 @@ import com.etiya.rentACar.business.responses.invoiceResponses.InvoiceDto;
 import com.etiya.rentACar.business.responses.invoiceResponses.ListInvoiceDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -38,7 +39,7 @@ public class InvoicesController {
     }
 
     @GetMapping("/getallcreatedatebetween")
-    DataResult<List<ListInvoiceDto>> getAllCreateDateBetween(@RequestParam("firstcreatedate") LocalDate firstCreateDate,@RequestParam("endcreatedate") LocalDate endCreateDate){
+    DataResult<List<ListInvoiceDto>> getAllCreateDateBetween(@RequestParam("firstcreatedate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate firstCreateDate, @RequestParam("endcreatedate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endCreateDate){
         return this.invoiceService.getAllCreateDateBetween(firstCreateDate,endCreateDate);
     }
 

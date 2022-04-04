@@ -31,5 +31,5 @@ public class RentalAdditionalServiceDetail {
 	
 	@ManyToOne
 	@JoinColumn(name="additionalservice_id")
-	private AdditionalService additionalservice;
+	private AdditionalService additionalService;
 }

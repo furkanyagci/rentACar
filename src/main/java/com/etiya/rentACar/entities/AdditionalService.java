@@ -32,6 +32,6 @@ public class AdditionalService {
 	@Column(name="dailyPrice")
 	private double dailyPrice;
 	
-	@OneToMany(mappedBy = "additionalservice")
+	@OneToMany(mappedBy = "additionalService")
 	private List<RentalAdditionalServiceDetail> rentalAdditionalServiceDetail;
 }
