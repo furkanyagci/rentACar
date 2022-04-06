@@ -11,7 +11,7 @@ import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 
 public interface CustomerService {
-	DataResult<CustomerDto> getById(int brandId);
+	DataResult<CustomerDto> getById(int customerId);
 	
 	DataResult<List<ListCustomerDto>> getAll();
 

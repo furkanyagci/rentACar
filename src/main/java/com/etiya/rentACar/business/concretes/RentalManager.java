@@ -30,13 +30,11 @@ public class RentalManager implements RentalService{
 	private RentalDao rentalDao;
 	private ModelMapperService modelMapperService;
 	private CarService carService;
-	private AdditionalServiceService additionalServiceService;
 	
-	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService,  AdditionalServiceService additionalServiceService) {
+	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService) {
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
 		this.carService = carService;
-		this.additionalServiceService = additionalServiceService;
 	}
 
 	@Override
@@ -57,7 +55,7 @@ public class RentalManager implements RentalService{
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-		int carId=createRentalRequest.getCarId();
+		int carId=createRentalRequest.getCarId().getId();
 		
 		carService.checkIfCarStates(carId);
 		
@@ -82,41 +80,5 @@ public class RentalManager implements RentalService{
 		this.rentalDao.save(rental);
 		return new SuccessResult(BusinessMessages.RentalMessages.RENTAL_UPDATED);
 	}
-	
-	//Hesaplama kodları payment'da olacak
-	private int calculateDay(CreateRentalRequest createRentalRequest) {
-		Period diff = Period.between(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate());
-		if (diff.getDays() ==0) {
-			return 1;
-		}
-		return diff.getDays();
-	}
-	
-	private double calculateTotalPrice(CreateRentalRequest createRentalRequest, List<Integer> additionalServiceId) {
-		CarDto car = this.carService.getById(createRentalRequest.getCarId()).getData();
-		double dailyPrice = car.getDailyPrice();
-		int dayCount = calculateDay(createRentalRequest);
-		double dayPrice = dayCount * dailyPrice;
-		double citySame = this.checkIfCitiesSame(createRentalRequest);
-		double additionalServicesTotalPrice = dayCount * this.checkIfAdditionalServices(additionalServiceId);
-		
-		return (dayPrice + citySame + additionalServicesTotalPrice);
-	}
-	
-	private double checkIfCitiesSame(CreateRentalRequest createRentalRequest) {
-		if(createRentalRequest.getRentCityId() != createRentalRequest.getReturnedCityId()) {
-			 return 750;
-		}
-		return 0;
-	}
-	
-	private double checkIfAdditionalServices(List<Integer> listAdditionalServiceId) {
-		double additionalServicesTotalPrice = 0;
-		
-		for (int i = 0; i < listAdditionalServiceId.size(); i++) {
-			additionalServicesTotalPrice += this.additionalServiceService.getById(listAdditionalServiceId.get(i)).getData().getDailyPrice();
-		}
 
-		return additionalServicesTotalPrice;
-	}
 }

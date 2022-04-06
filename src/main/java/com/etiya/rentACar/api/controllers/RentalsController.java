@@ -33,8 +33,8 @@ public class RentalsController {
 	}
 	
 	@GetMapping("/getbyid")
-	public DataResult<RentalDto> getById(@RequestParam("RentalId") int RentalId) {
-		return this.rentalService.getById(RentalId);
+	public DataResult<RentalDto> getById(@RequestParam("rentalId") int rentalId) {
+		return this.rentalService.getById(rentalId);
 	}
 	
 	@PostMapping("/add")

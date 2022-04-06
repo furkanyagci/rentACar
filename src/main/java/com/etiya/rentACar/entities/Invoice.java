@@ -14,9 +14,12 @@ import java.time.LocalDate;
 @Table(name="invoices")
 public class Invoice {
 
+    //@Id
+    //@Column(name = "payment_id")
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name="invoiceNumber")
@@ -40,4 +43,8 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name="payment_id")
+    private Payment payment;
 }

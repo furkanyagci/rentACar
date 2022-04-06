@@ -2,6 +2,9 @@ package com.etiya.rentACar.business.responses.rentalResponses;
 
 import java.time.LocalDate;
 
+import com.etiya.rentACar.entities.Car;
+import com.etiya.rentACar.entities.City;
+import com.etiya.rentACar.entities.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +18,10 @@ public class RentalDto {
 	private LocalDate returnDate;
 	private double dailyPrice;
 	private double kilometer;
-	private String carBrandName;
-	private String customerFirstName;
-	private String customerLastName;
-	private String rentCityIdName;
-	private String returnedCitiesName;
+	//Aşağıdaki String çevir
+	private Car carBrandName;
+	private Customer customerFirstName;
+	private Customer customerLastName;
+	private City rentCityIdName;
+	private City returnedCitiesName;
 }

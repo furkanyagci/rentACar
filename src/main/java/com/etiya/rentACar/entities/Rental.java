@@ -41,10 +41,7 @@ public class Rental {
 	@Column(name="kilometer")
 	private double kilometer;
 
-	
-	//@Column(name="totalPrice")//payment tablosuna eklenecek.
-	//private double totalPrice;
-	
+
 	@ManyToOne
 	@JoinColumn(name="car_id")
 	private Car car;
@@ -63,4 +60,7 @@ public class Rental {
 	
 	@OneToMany(mappedBy = "rental")
 	private List<RentalAdditionalServiceDetail> rentalAdditionalServiceDetail;
+
+	@OneToMany(mappedBy = "rental")
+	private List<Payment> payments;
 }

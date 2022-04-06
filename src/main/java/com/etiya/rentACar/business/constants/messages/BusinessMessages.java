@@ -67,4 +67,11 @@ public class BusinessMessages {
 		public static final String INVOICE_DELETED="Başarıyla silindi";
 		public static final String INVOICE_UPDATED="Başarıyla güncellendi";
 	}
+
+	public class PaymentMessages{
+		public static final String PAYMENT_ADDED="Başarıyla eklendi";
+		public static final String PAYMENT_DELETED="Başarıyla silindi";
+		public static final String PAYMENT_UPDATED="Başarıyla güncellendi";
+		public static final String PAYMENT_ERROR="Banka işlemi onaylamadı.";
+	}
 }

@@ -9,9 +9,10 @@ import com.etiya.rentACar.business.responses.rentalResponses.ListRentalDto;
 import com.etiya.rentACar.business.responses.rentalResponses.RentalDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
+import com.etiya.rentACar.entities.Payment;
 
 public interface RentalService {
-	DataResult<RentalDto> getById(int brandId);
+	DataResult<RentalDto> getById(int id);
 	
 	DataResult<List<ListRentalDto>> getAll();
 

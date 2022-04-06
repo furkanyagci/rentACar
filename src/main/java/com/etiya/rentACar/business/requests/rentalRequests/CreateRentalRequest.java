@@ -2,6 +2,9 @@ package com.etiya.rentACar.business.requests.rentalRequests;
 
 import java.time.LocalDate;
 
+import com.etiya.rentACar.entities.Car;
+import com.etiya.rentACar.entities.City;
+import com.etiya.rentACar.entities.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -22,11 +25,13 @@ public class CreateRentalRequest {
 
 	private double kilometer;
 
-	private int carId;
+	//aşağıdakiler int çevir
+	private Car carId;
 	
 	private int customerId;
 	
-	private int rentCityId;
+	private City rentCityId;
 	
-	private int returnedCityId;
+	private City returnedCityId;
+
 }

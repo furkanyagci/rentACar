@@ -91,7 +91,7 @@ public class CarManager implements CarService{
 	
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-		 /* Color color = new Color(); color.setId(createCarRequest.getColorId());
+		/* Color color = new Color(); color.setId(createCarRequest.getColorId());
 		 * 
 		 * Brand brand = new Brand(); brand.setId(createCarRequest.getBrandId());
 		 * 
@@ -100,7 +100,6 @@ public class CarManager implements CarService{
 		 * car.setDailyPrice(createCarRequest.getDailyPrice());
 		 * car.setDescription(createCarRequest.getDescription()); car.setColor(color);
 		  car.setBrand(brand);*/
-		 
 		//aşağıdaki işlem modelmapper işlemi yukarıdaki gibi alanları tek tek atamamıza gerek kalmadı
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		this.carDao.save(car);
