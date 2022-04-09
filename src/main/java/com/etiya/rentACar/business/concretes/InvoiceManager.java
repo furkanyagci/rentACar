@@ -87,4 +87,9 @@ public class InvoiceManager implements InvoiceService {
         this.invoiceDao.save(invoice);
         return new SuccessResult(BusinessMessages.InvoiceMessages.INVOICE_UPDATED);
     }
+
+    @Override
+    public int findFirstByOrderByIdDesc() {
+        return this.invoiceDao.findFirstByOrderByIdDesc();
+    }
 }

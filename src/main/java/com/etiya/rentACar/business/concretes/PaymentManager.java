@@ -4,15 +4,16 @@ import com.etiya.rentACar.adapter.PaymentCheckPosService;
 import com.etiya.rentACar.adapter.PaymentPosServiceInfo;
 import com.etiya.rentACar.business.abstracts.*;
 import com.etiya.rentACar.business.constants.messages.BusinessMessages;
+import com.etiya.rentACar.business.requests.invoiceRequests.CreateInvoiceRequest;
 import com.etiya.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.etiya.rentACar.business.requests.paymentRequests.DeletePaymentRequest;
 import com.etiya.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
+import com.etiya.rentACar.business.requests.rentalAdditionalServiceDetailRequests.CreateRentalAdditionalServiceDetailRequest;
 import com.etiya.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.etiya.rentACar.business.responses.carResponses.CarDto;
-import com.etiya.rentACar.business.responses.customerResponses.CustomerDto;
+import com.etiya.rentACar.business.responses.invoiceResponses.ListInvoiceDto;
 import com.etiya.rentACar.business.responses.paymentResponses.ListPaymentDto;
 import com.etiya.rentACar.business.responses.paymentResponses.PaymentDto;
-import com.etiya.rentACar.business.responses.rentalResponses.RentalDto;
 import com.etiya.rentACar.core.crossCuttingConcerns.exceptionHandling.BusinessException;
 import com.etiya.rentACar.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACar.core.utilities.results.DataResult;
@@ -20,9 +21,8 @@ import com.etiya.rentACar.core.utilities.results.Result;
 import com.etiya.rentACar.core.utilities.results.SuccessDataResult;
 import com.etiya.rentACar.core.utilities.results.SuccessResult;
 import com.etiya.rentACar.dataAccess.abctracts.PaymentDao;
-import com.etiya.rentACar.entities.Customer;
+import com.etiya.rentACar.entities.Invoice;
 import com.etiya.rentACar.entities.Payment;
-import com.etiya.rentACar.entities.Rental;
 import org.springframework.stereotype.Service;
 
 import java.time.Period;
@@ -53,6 +53,7 @@ public class PaymentManager implements PaymentService {
         this.paymentCheckPosService = paymentCheckPosService;
         this.customerService= customerService;
         this.rentalService = rentalService;
+        this.invoiceService = invoiceService;
         this.rentalAdditionalServiceDetailService = rentalAdditionalServiceDetailService;
     }
 
@@ -83,9 +84,13 @@ public class PaymentManager implements PaymentService {
 
     @Override
     public Result add(CreatePaymentRequest createPaymentRequest) {
-        Payment payment = this.modelMapperService.forDto().map(createPaymentRequest, Payment.class);
-
         makePayment(createPaymentRequest);
+
+        List<ListInvoiceDto> invoiceDto = invoiceService.getAll().getData();
+        ListInvoiceDto invoice = invoiceDto.get(invoiceDto.size()-1);
+
+        createPaymentRequest.setInvoiceId(invoice.getId());
+        Payment payment = this.modelMapperService.forDto().map(createPaymentRequest, Payment.class);
 
         this.paymentDao.save(payment);
         return new SuccessResult(BusinessMessages.PaymentMessages.PAYMENT_ADDED);
@@ -111,14 +116,31 @@ public class PaymentManager implements PaymentService {
         PaymentPosServiceInfo paymentPosServiceInfo = this.modelMapperService.forDto()
                 .map(createPaymentRequest, PaymentPosServiceInfo.class);
         boolean payResult = this.paymentCheckPosService.Pay(paymentPosServiceInfo);
-        if(payResult == false){
+        if(!payResult){
             throw new BusinessException(BusinessMessages.PaymentMessages.PAYMENT_ERROR);
         }
 
-        //rental, additionalservice, invoice
-        this.rentalService.add(createPaymentRequest.getCreateRentalRequest());
-        this.invoiceService.add(createPaymentRequest.getCreateInvoiceRequest());
+        //rental, invoice, additionalservice
+        CreateRentalRequest createRentalRequest = this.modelMapperService.forRequest()
+                .map(createPaymentRequest, CreateRentalRequest.class);
 
+        double totalPrice=calculateTotalPrice(createRentalRequest,createPaymentRequest.getAdditionalServiceId());
+        createPaymentRequest.setTotalPrice(totalPrice);
+        rentalService.add(createRentalRequest);
+
+        CreateInvoiceRequest createInvoiceRequest = this.modelMapperService.forRequest()
+                .map(createPaymentRequest,CreateInvoiceRequest.class);
+        createInvoiceRequest.setTotalPrice(totalPrice);
+        invoiceService.add(createInvoiceRequest);
+
+        for (int item: createPaymentRequest.getAdditionalServiceId()) {
+            CreateRentalAdditionalServiceDetailRequest createRentalAdditionalServiceDetailRequest = new
+                    CreateRentalAdditionalServiceDetailRequest();
+            createRentalAdditionalServiceDetailRequest.setRentalId(createPaymentRequest.getRentalId());
+            createRentalAdditionalServiceDetailRequest.setAdditionalServiceId(item);
+
+            rentalAdditionalServiceDetailService.add(createRentalAdditionalServiceDetailRequest);
+        }
 
         return new SuccessResult();
     }

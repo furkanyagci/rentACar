@@ -9,4 +9,7 @@ import java.util.List;
 public interface InvoiceDao extends JpaRepository<Invoice,Integer> {
     List<Invoice> getByCreateDateBetween(LocalDate firstCreateDate, LocalDate endCreateDate);
     List<Invoice> getByCustomerId(int customerId);
+
+    int findFirstByOrderByIdDesc();
+    //int findTopByOrderByIdDesc();
 }

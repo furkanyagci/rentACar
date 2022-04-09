@@ -4,6 +4,7 @@ import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACar.entities.Car;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACar.business.abstracts.AdditionalServiceService;
@@ -55,15 +56,15 @@ public class RentalManager implements RentalService{
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-		int carId=createRentalRequest.getCarId().getId();
-		
-		carService.checkIfCarStates(carId);
-		
+
+		CarDto car = carService.getById(createRentalRequest.getCarId().getId()).getData();
+		carService.checkIfCarStates(car.getId());
+
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
-		
+		rental.setDailyPrice(car.getDailyPrice());//indirim gelirse burada indirimle çarp
 		this.rentalDao.save(rental);
 		
-		carService.updateCarState(carId, CarStates.Rented);
+		carService.updateCarState(car.getId(), CarStates.Rented);
 		
 		return new SuccessResult(BusinessMessages.RentalMessages.RENTAL_ADDED);
 	}

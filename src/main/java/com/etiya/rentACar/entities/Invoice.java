@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -44,7 +45,6 @@ public class Invoice {
     @JoinColumn(name="customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name="payment_id")
-    private Payment payment;
+    @OneToMany(mappedBy = "invoice")
+    private List<Payment> payment;
 }

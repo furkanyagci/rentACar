@@ -12,4 +12,5 @@ public class UpdatePaymentRequest {
     private double totalPrice;
     private int customerId;
     private int rentalId;
+    private int invoiceId;
 }

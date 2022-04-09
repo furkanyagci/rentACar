@@ -30,8 +30,9 @@ public class Payment {
     @JoinColumn(name="rental_id")
     private Rental rental;
 
-    @OneToMany(mappedBy = "payment")
-    private List<Invoice> invoice;
+    @ManyToOne
+    @JoinColumn(name="invoice_id")
+    private Invoice invoice;
 
 
 }
