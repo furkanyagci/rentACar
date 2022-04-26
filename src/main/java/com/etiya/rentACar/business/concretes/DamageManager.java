@@ -84,19 +84,19 @@ public class DamageManager implements DamageService{
 	public Result add(CreateDamageRequest createDamageRequest) {
 		Damage damage = this.modelMapperService.forRequest().map(createDamageRequest, Damage.class);
 		this.damageDao.save(damage);
-		return new SuccessResult(BusinessMessages.DamageMessages.COLOR_ADDED);
+		return new SuccessResult(BusinessMessages.DamageMessages.DAMAGE_ADDED);
 	}
 
 	@Override
 	public Result update(UpdateDamageRequest updateDamageRequest) {
 		Damage damage = this.modelMapperService.forRequest().map(updateDamageRequest, Damage.class);
 		this.damageDao.save(damage);
-		return new SuccessResult(BusinessMessages.DamageMessages.COLOR_UPDATED);
+		return new SuccessResult(BusinessMessages.DamageMessages.DAMAGE_UPDATED);
 	}
 
 	@Override
 	public Result delete(DeleteDamageRequest deleteDamageRequest) {
 		this.damageDao.deleteById(deleteDamageRequest.getId());
-		return new SuccessResult(BusinessMessages.DamageMessages.COLOR_DELETED);
+		return new SuccessResult(BusinessMessages.DamageMessages.DAMAGE_DELETED);
 	}
 }

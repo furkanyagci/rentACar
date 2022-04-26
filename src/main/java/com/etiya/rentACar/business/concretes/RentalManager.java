@@ -58,13 +58,13 @@ public class RentalManager implements RentalService{
 	public Result add(CreateRentalRequest createRentalRequest) {
 
 		CarDto car = carService.getById(createRentalRequest.getCarId().getId()).getData();
-		carService.checkIfCarStates(car.getId());
+		//carService.checkIfCarStates(car.getId());
 
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		rental.setDailyPrice(car.getDailyPrice());//indirim gelirse burada indirimle çarp
 		this.rentalDao.save(rental);
 		
-		carService.updateCarState(car.getId(), CarStates.Rented);
+		//carService.updateCarState(car.getId(), CarStates.Rented);
 		
 		return new SuccessResult(BusinessMessages.RentalMessages.RENTAL_ADDED);
 	}

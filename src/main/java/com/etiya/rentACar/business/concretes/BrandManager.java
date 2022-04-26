@@ -92,7 +92,7 @@ public class BrandManager implements BrandService {
 
 	private void checkIfBrandNameExists(String brandName) {
 		if (brandDao.existsByNameIgnoreCase(brandName)) {
-			throw new BusinessException("Bu marka daha önce kayıt edilmiş");
+			throw new BusinessException(BusinessMessages.BrandMessages.BRAND_ALREADY_EXISTS);
 		}
 	}
 	

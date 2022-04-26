@@ -15,9 +15,6 @@ import java.util.List;
 @Table(name="invoices")
 public class Invoice {
 
-    //@Id
-    //@Column(name = "payment_id")
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

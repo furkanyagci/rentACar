@@ -20,7 +20,7 @@ public interface InvoiceService {
     DataResult<List<ListInvoiceDto>> getAll();
     DataResult<List<ListInvoiceDto>> getAllCreateDateBetween(LocalDate firstCreateDate, LocalDate endCreateDate);
 
-    Result add(CreateInvoiceRequest createInvoiceRequest);
+    DataResult<Invoice> add(CreateInvoiceRequest createInvoiceRequest);
     Result delete(DeleteInvoiceRequest deleteInvoiceRequest);
     Result update(UpdateInvoiceRequest updateInvoiceRequest);
 

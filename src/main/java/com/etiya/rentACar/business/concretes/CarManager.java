@@ -96,7 +96,8 @@ public class CarManager implements CarService{
 		 * Brand brand = new Brand(); brand.setId(createCarRequest.getBrandId());
 		 * 
 		 //buradaki işlemleri kolaylaştırmak için modelmapper kullanacağız 
-		 * Car car = new Car(); car.setModelYear(createCarRequest.getModelYear());
+		 * Car car = new Car();
+		 * car.setModelYear(createCarRequest.getModelYear());
 		 * car.setDailyPrice(createCarRequest.getDailyPrice());
 		 * car.setDescription(createCarRequest.getDescription()); car.setColor(color);
 		  car.setBrand(brand);*/
@@ -114,17 +115,12 @@ public class CarManager implements CarService{
 
 	@Override
 	public Result update(UpdateCarRequest updateCarRequest) {
-		checkIfCarIdExists(updateCarRequest.getId());
 		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 		this.carDao.save(car);
 		return new SuccessResult(BusinessMessages.CarMessages.CAR_UPDATED);
 	}
 	
-	private void checkIfCarIdExists(int carId) {
-		if(this.carDao.getById(carId)==null) {
-			throw new BusinessException("Bu isimde bir marka yok");
-		}
-	}
+
 
 	@Override
 	public void updateCarState(int carId, CarStates carStates) {

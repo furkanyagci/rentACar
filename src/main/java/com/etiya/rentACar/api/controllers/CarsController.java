@@ -20,7 +20,7 @@ import com.etiya.rentACar.business.responses.carResponses.ListCarDto;
 import com.etiya.rentACar.core.utilities.results.DataResult;
 import com.etiya.rentACar.core.utilities.results.Result;
 
-@RestController//
+@RestController
 @RequestMapping("/api/cars")
 public class CarsController {
 

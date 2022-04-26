@@ -69,11 +69,13 @@ public class InvoiceManager implements InvoiceService {
     }
 
     @Override
-    public Result add(CreateInvoiceRequest createInvoiceRequest) {
+    public DataResult<Invoice> add(CreateInvoiceRequest createInvoiceRequest) {
         Invoice invoice = this.modelMapperService.forRequest().map(createInvoiceRequest, Invoice.class);
         this.invoiceDao.save(invoice);
-        return new SuccessResult(BusinessMessages.InvoiceMessages.INVOICE_ADDED);
+        return new SuccessDataResult(invoice, BusinessMessages.InvoiceMessages.INVOICE_ADDED);
     }
+
+
 
     @Override
     public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {

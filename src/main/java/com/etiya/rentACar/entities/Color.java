@@ -30,6 +30,6 @@ public class Color {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy = "color")//aşağıdaki nesne içinde bir color adında alan var sen onunla ilişkilisin demek
+	@OneToMany(mappedBy = "color")
 	private List<Car> cars;
 }

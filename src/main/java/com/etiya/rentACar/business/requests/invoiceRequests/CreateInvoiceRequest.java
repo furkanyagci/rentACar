@@ -12,7 +12,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateInvoiceRequest {
-
+    @JsonIgnore
+    private int id;
     private String invoiceNumber;
 
     private LocalDate createDate;

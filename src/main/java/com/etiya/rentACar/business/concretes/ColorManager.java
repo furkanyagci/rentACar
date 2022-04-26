@@ -59,28 +59,21 @@ public class ColorManager implements ColorService {
 	
 	@Override
 	public Result delete(DeleteColorRequest deleteColorRequest) {
-		checkIfColorIdExists(deleteColorRequest.getId());
 		this.colorDao.deleteById(deleteColorRequest.getId());
 		return new SuccessResult(BusinessMessages.ColorMessages.COLOR_DELETED);
 	}
 
 	@Override
 	public Result update(UpdateColorRequest updateColorRequest) {
-		checkIfColorIdExists(updateColorRequest.getId());
 		Color color = this.modelMapperService.forRequest().map(updateColorRequest, Color.class);
 		this.colorDao.save(color);
 		return new SuccessResult(BusinessMessages.ColorMessages.COLOR_UPDATED);
 	}
-	
-	private void checkIfColorIdExists(int colorId) {
-		if(this.colorDao.getById(colorId)==null) {
-			throw new BusinessException("Bu isimde bir renk yok");
-		}
-	}
+
 	
 	private void checkIfColorNameExists(String colorName) {
 		if (colorDao.existsByNameIgnoreCase(colorName)) {
-			throw new BusinessException("Bu renk daha önce kayıt edilmiş");
+			throw new BusinessException(BusinessMessages.ColorMessages.COLOR_IS_ALREADY_SAVED);
 		}
 	}
 }

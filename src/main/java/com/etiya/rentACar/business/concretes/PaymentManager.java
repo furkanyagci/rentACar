@@ -37,21 +37,19 @@ public class PaymentManager implements PaymentService {
     private CarService carService;
     private AdditionalServiceService additionalServiceService;
     private PaymentCheckPosService paymentCheckPosService;
-    private CustomerService customerService;
     private RentalService rentalService;
     private InvoiceService invoiceService;
     private RentalAdditionalServiceDetailService rentalAdditionalServiceDetailService;
 
     public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, CarService carService
             ,AdditionalServiceService additionalServiceService, PaymentCheckPosService paymentCheckPosService
-            ,CustomerService customerService,InvoiceService invoiceService, RentalService rentalService
+            ,InvoiceService invoiceService, RentalService rentalService
             ,RentalAdditionalServiceDetailService rentalAdditionalServiceDetailService) {
         this.paymentDao = paymentDao;
         this.modelMapperService = modelMapperService;
         this.carService = carService;
         this.additionalServiceService = additionalServiceService;
         this.paymentCheckPosService = paymentCheckPosService;
-        this.customerService= customerService;
         this.rentalService = rentalService;
         this.invoiceService = invoiceService;
         this.rentalAdditionalServiceDetailService = rentalAdditionalServiceDetailService;
@@ -84,10 +82,10 @@ public class PaymentManager implements PaymentService {
 
     @Override
     public Result add(CreatePaymentRequest createPaymentRequest) {
-        makePayment(createPaymentRequest);
+        Invoice invoice =  makePayment(createPaymentRequest).getData();
 
-        List<ListInvoiceDto> invoiceDto = invoiceService.getAll().getData();
-        ListInvoiceDto invoice = invoiceDto.get(invoiceDto.size()-1);
+        //List<ListInvoiceDto> invoiceDto = invoiceService.getAll().getData();
+        //ListInvoiceDto invoice = invoiceDto.get(invoiceDto.size()-1);
 
         createPaymentRequest.setInvoiceId(invoice.getId());
         Payment payment = this.modelMapperService.forDto().map(createPaymentRequest, Payment.class);
@@ -112,13 +110,8 @@ public class PaymentManager implements PaymentService {
 
 
     @Override
-    public Result makePayment(CreatePaymentRequest createPaymentRequest) {
-        PaymentPosServiceInfo paymentPosServiceInfo = this.modelMapperService.forDto()
-                .map(createPaymentRequest, PaymentPosServiceInfo.class);
-        boolean payResult = this.paymentCheckPosService.Pay(paymentPosServiceInfo);
-        if(!payResult){
-            throw new BusinessException(BusinessMessages.PaymentMessages.PAYMENT_ERROR);
-        }
+    public DataResult<Invoice> makePayment(CreatePaymentRequest createPaymentRequest) {
+        checkIfPayment(createPaymentRequest);
 
         //rental, invoice, additionalservice
         CreateRentalRequest createRentalRequest = this.modelMapperService.forRequest()
@@ -128,10 +121,7 @@ public class PaymentManager implements PaymentService {
         createPaymentRequest.setTotalPrice(totalPrice);
         rentalService.add(createRentalRequest);
 
-        CreateInvoiceRequest createInvoiceRequest = this.modelMapperService.forRequest()
-                .map(createPaymentRequest,CreateInvoiceRequest.class);
-        createInvoiceRequest.setTotalPrice(totalPrice);
-        invoiceService.add(createInvoiceRequest);
+        Invoice invoice = addInvoiceService(createPaymentRequest,totalPrice);
 
         for (int item: createPaymentRequest.getAdditionalServiceId()) {
             CreateRentalAdditionalServiceDetailRequest createRentalAdditionalServiceDetailRequest = new
@@ -142,8 +132,18 @@ public class PaymentManager implements PaymentService {
             rentalAdditionalServiceDetailService.add(createRentalAdditionalServiceDetailRequest);
         }
 
-        return new SuccessResult();
+        return new DataResult<Invoice>(invoice,true);
     }
+
+    private Invoice addInvoiceService(CreatePaymentRequest createPaymentRequest, double totalPrice){
+        CreateInvoiceRequest createInvoiceRequest = this.modelMapperService.forRequest()
+                .map(createPaymentRequest,CreateInvoiceRequest.class);
+        createInvoiceRequest.setTotalPrice(totalPrice);
+        Invoice invoice = this.invoiceService.add(createInvoiceRequest).getData();
+        return invoice;
+    }
+
+
 
 
 
@@ -181,5 +181,14 @@ public class PaymentManager implements PaymentService {
         }
 
         return additionalServicesTotalPrice;
+    }
+
+    private void checkIfPayment(CreatePaymentRequest createPaymentRequest){
+        PaymentPosServiceInfo paymentPosServiceInfo = this.modelMapperService.forDto()
+                .map(createPaymentRequest, PaymentPosServiceInfo.class);
+        boolean payResult = this.paymentCheckPosService.Pay(paymentPosServiceInfo);
+        if(!payResult){
+            throw new BusinessException(BusinessMessages.PaymentMessages.PAYMENT_ERROR);
+        }
     }
 }

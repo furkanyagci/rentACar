@@ -40,7 +40,7 @@ public class Car {
 	@Column(name="kilometer")
 	private double kilometer;
 
-	@Column(name="carState")//Enum'ı buraya bağladık
+	@Column(name="carState")
 	private CarStates carStates;
 	
 	
